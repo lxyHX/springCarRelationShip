@@ -45,8 +45,8 @@ public class CarService {
         allTageValueList.add(ownerTagValueList);
         allTageValueList.add(competitorTagValueList);
 
-        result.put("name", tagList);
-        result.put("value", allTageValueList);
+        result.put("tags", tagList);
+        result.put("values", allTageValueList);
 
         return result;
     }
