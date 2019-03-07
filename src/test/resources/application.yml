@@ -1,0 +1,193 @@
+spring:
+  datasource:
+    c3p0:
+      primary:
+        driverClass: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://127.0.0.1:3306/cdm_test?useUnicode=true&characterEncoding=utf-8&useSSL=true
+        dbname: cdm_test
+        user: root
+        password: root
+        initialPoolSize: 10
+        minPoolSize: 10
+        maxPoolSize: 100
+        maxStatements: 100
+        maxIdleTime: 3600
+        acquireIncrement: 10
+        acquireRetryAttempts: 10
+        acquireRetryDelay: 600
+        testConnectionOnCheckin: true
+        idleConnectionTestPeriod: 60
+        checkoutTimeout: 20000
+      primary2:
+        driverClass: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://T1:3306/taobao_data?useUnicode=true&characterEncoding=utf-8&useSSL=true
+        dbname: taobao_data
+        user: root
+        password: dspuidb
+        initialPoolSize: 10
+        minPoolSize: 10
+        maxPoolSize: 100
+        maxStatements: 100
+        maxIdleTime: 3600
+        acquireIncrement: 10
+        acquireRetryAttempts: 10
+        acquireRetryDelay: 600
+        testConnectionOnCheckin: true
+        idleConnectionTestPeriod: 60
+        checkoutTimeout: 20000
+      secondary:
+        driverClass: com.cloudera.impala.jdbc41.Driver
+        jdbcUrl: jdbc:impala://127.0.0.1:21050
+        initialPoolSize: 10
+        minPoolSize: 10
+        maxPoolSize: 100
+        maxStatements: 100
+        maxIdleTime: 3600
+        acquireIncrement: 10
+        acquireRetryAttempts: 10
+        acquireRetryDelay: 600
+        testConnectionOnCheckin: true
+        idleConnectionTestPeriod: 60
+        checkoutTimeout: 10000
+  redis:
+    database: 5
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0
+  http:
+      multipart:
+        enabled: false
+
+redis:
+  server: 127.0.0.1
+  port: 6379
+etcd:
+  endPoints: http://127.0.0.1:2379
+monitor:
+  service: http://127.0.0.1:8081/api
+server:
+  port: 8080
+  address: 0.0.0.0
+  compression:
+    enabled: true
+  tomcat:
+    max-threads: 200
+    uri-encoding: utf-8
+  session:
+    timeout: 1800
+metadata:
+  server: 127.0.0.1
+  port: 8088
+  url:
+    modifyModelCname: /v2/meta/model/cname
+    modifyAttrCname: /v2/meta/attr/cname
+    modifyAttrVisible: /v2/meta/attr/visible
+    modifyAttrRequired: /v2/meta/attr/required
+    getProject: /v2/meta/project
+    getAllProjectIds: /v2/meta/projectIds
+    getProjectAttr: /v2/meta/project/attributes
+    createProject: /v2/meta/project
+    createMetadata: /v2/meta/metadata
+    getProjectAllAttr: /v2/meta/project/list/attributes
+    deleteProject: /v2/meta/project
+    addModels: /v2/meta/newModel
+    addAttributes: /v2/meta/newAttribute
+    bindAttributes: /v2/meta/bindModAttr
+  template:
+    path: /metadata/templates.json
+
+keywords:
+  funnel:
+    userId: _user_id
+    datetime: _datetime
+    event: _event
+    eventTable: event
+  eventTable:
+    userId: _user_id
+    orderId: _order_id
+    datetime: _datetime
+    province: _province
+    project: project
+    event: _event
+    actualPrice: _total_price
+  userTable:
+    userId: _user_id
+    phone: _phone
+  table:
+    eventTable: event
+    userTable: user
+
+
+
+SecondaryDBKeywords:
+  eventTable:
+    userId: _user_id
+    orderId: _order_id
+    datetime: _datetime
+    project: project
+    event: _event
+  userTable:
+    userId: _user_id
+    phone: _phone
+    signupTime: _signup_time
+    userName: _user_name
+    gender: _gender
+    address: _address
+    birthday: _birthday
+    province: _province
+    city: _city
+  table:
+    eventTable: event
+    userTable: user
+  databasePrefix: project
+  eventSuccess: _deal
+  actualPrice: _total_price
+
+CrowdDBKeywords:
+  eventTable:
+    userId: _user_id
+    orderId: _order_id
+    datetime: _datetime
+    project: project
+    event: _event
+  userTable:
+    userId: _user_id
+    phone: _phone
+    signupTime: _signup_time
+    userName: _user_name
+    gender: _gender
+    address: _address
+    birthday: _birthday
+    province: _province
+    city: _city
+  table:
+    eventTable: event
+    userTable: user
+  databasePrefix: project
+  eventSuccess: _deal
+  actualPrice: _total_price
+
+predCrowd:
+  featureEngineUrl: t1:8022/computePlatformEntry
+
+CmpConfig:
+  dir:
+    predictResult: predict_result
+    trainDir: train_dataset
+    predictDir: predict_dataset
+  host: 103.235.232.110
+  port: 4107
+  getStatus: /task/getParentsStatus
+  getModelReport: /model/report
+  getPredictResult: /predict/totalResult
+  getDictionary: /model/dictionary
+  releaseTask: /task/addMultiTask
+  addApi: /permission/add
+
+

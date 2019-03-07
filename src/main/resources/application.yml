@@ -1,0 +1,24 @@
+server:
+  port: 8070
+  address: 0.0.0.0
+  compression:
+    enabled: true
+  tomcat:
+    max-threads: 200
+    uri-encoding: utf-8
+  session:
+    timeout: 1800
+
+datasource:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://168.168.5.1:5432/ABSA
+  username: postgres
+  password: oio
+
+
+mapper:
+  package:
+    path: com.jas.mapper
+  xml:
+    config:
+      path: /mapper/*.xml
