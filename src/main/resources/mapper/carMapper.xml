@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="car.guangqi.car.dao.CarDao">
     <select id="queryAllCars" resultType="java.util.Map">
-        SELECT * FROM t_koubei_all
+        SELECT * FROM t_koubei_all limit 10000
     </select>
+    <!--查询子标签的信息-->
+    <select id="querySubLevelByParentId" resultType="car.guangqi.car.entity.TagVO" parameterType="java.lang.String">
+        select tag_id as code,tag_name as name,tag_level as level,father_id as parentId from absa_tag_code where father_id like concat('%',#{code},'%') and tag_id != #{code}
+    </select>
+
+    <!--查询标签的正负级性的统计-->
+    <select id="queryEmotionByCodes" resultType="java.util.Map" parameterType="java.lang.String">
+        select count(*),recom_tag  from t_autohome_kb_ana_results where recom_tag in
+        <foreach collection="codes"  item = "code" open="(" separator="," close=")">
+          #{code}
+        </foreach>
+     and emotion = #{emotion}
+      and car_series_id = #{carId}
+      group by recom_tag
+    </select>
+
 </mapper>
