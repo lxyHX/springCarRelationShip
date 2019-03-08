@@ -15,9 +15,44 @@
         <foreach collection="codes"  item = "code" open="(" separator="," close=")">
           #{code}
         </foreach>
-     and emotion = #{emotion}
-      and car_series_id = #{carId}
-      group by recom_tag
+          and emotion = #{emotion}
+          and car_series_id = #{carId}
+          group by recom_tag
     </select>
 
+    <!--根据关键字查询自由车型-->
+    <select id="queryOwnerCarList" resultType="java.util.Map">
+      select car_series_id as id,series_name as series,spec_name as name from car_info where series_name like concat('%',#{name},'%') limit 1000
+    </select>
+
+    <!--根据关键字查询竞争车型-->
+    <select id="queryCompetitorCarList" resultType="java.util.Map">
+      select car_series_id as id,series_name as series,spec_name as name from car_info
+        <where>
+            <if test="competitors != null and competitors.size() > 0">
+                <foreach collection="competitors" index="index" item="item" open="(" separator=" or " close=")">
+                    series_name  like concat('%',#{item},'%')
+                </foreach>
+            </if>
+            <if test="competitors == null or competitors.size() == 0">
+                series_name not like concat('%',#{ownerCar},'%')
+            </if>
+        </where>
+        ORDER BY series_name LIMIT 1000
+    </select>
+
+    <!--查询一级指标-->
+    <select id="queryFirstLevelTag" resultType="java.util.Map">
+        select tag_id as id, tag_level as level, tag_name as name, 100 as max from absa_tag_code where tag_level = 'G' ORDER BY id
+    </select>
+
+    <select id="queryRecomContent" resultType="java.util.Map">
+        select recom_content as name, count(*) as value from t_autohome_kb_ana_results where recom_tag = #{code} and emotion = #{emotion} and car_series_id = #{carId} GROUP BY recom_content ORDER BY value desc
+    </select>
+
+    <!--查询一个指标的正负反馈总数-->
+    <select id="queryPMCount" resultType="java.util.Map">
+        select count(*),emotion from t_autohome_kb_ana_results where car_series_id = #{carId} and recom_tag like concat('%',#{code},'%') GROUP BY emotion  ORDER BY emotion DESC
+    </select>
 </mapper>
+
